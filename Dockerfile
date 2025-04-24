@@ -23,7 +23,7 @@ ENV LANG=${OS_LOCALE} \
 ENV PHP_VER="8.4"
 ENV PHP_INI="/etc/php/${PHP_VER}/fpm/php.ini"
 ENV FPM_CONF="/etc/php/${PHP_VER}/fpm/pool.d/www.conf"
-ENV COMPOSER_VERSION="2.2.1"
+ENV COMPOSER_VERSION="2.8.8"
 
 #############################################################################################
 # Install Requirements
