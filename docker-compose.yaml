@@ -1,0 +1,6 @@
+services:
+  nginx-php-fpm-8.4:
+    image: newlooper/nginx-php-fpm-8.4
+    container_name: nginx-php-fpm-8.4
+    restart: always
+    tty: true

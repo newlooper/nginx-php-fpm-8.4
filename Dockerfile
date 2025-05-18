@@ -4,19 +4,20 @@ LABEL authors="newlooper@hotmail.com"
 
 #############################################################################################
 # Locale, Language, Timezone
-ENV OS_LOCALE="en_US.UTF-8" \
-    TZ="Asia/Shanghai"
+ENV OS_LOCALE="en_US.UTF-8"
+ENV TZ="Asia/Shanghai"
+ENV DEBIAN_FRONTEND=noninteractive
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get update \
-    && apt-get install -y locales tzdata curl \
-    && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
-    && dpkg-reconfigure -f noninteractive tzdata \
-    && locale-gen ${OS_LOCALE}
-    
+RUN apt-get update && \
+    apt-get install -y locales tzdata curl && \
+    ln -fs /usr/share/zoneinfo/$TZ /etc/localtime &&  echo $TZ > /etc/timezone && \
+    dpkg-reconfigure --frontend noninteractive tzdata && \
+    locale-gen ${OS_LOCALE} && \
+    apt-get clean
 
-ENV LANG=${OS_LOCALE} \
-    LC_ALL=${OS_LOCALE} \
-    LANGUAGE="en_US:en"
+ENV LANG=${OS_LOCALE}
+ENV LC_ALL=${OS_LOCALE}
+ENV LANGUAGE="en_US:en"
 
 #############################################################################################
 # App Env
@@ -31,6 +32,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     buildDeps='software-properties-common' \
     && apt-get install --no-install-recommends --no-install-suggests -y $buildDeps \
     && add-apt-repository -y ppa:ondrej/php \
+    && add-apt-repository ppa:ondrej/nginx \
     && apt-get update \
     && apt-get install --no-install-recommends --no-install-suggests -q -y \
         gcc make autoconf libc-dev pkg-config php-pear \
